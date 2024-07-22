@@ -1,0 +1,222 @@
+﻿@import url("https://fonts.googleapis.com/css?family=Comfortaa:300,400,700");
+
+.unauthorized, .four0one {
+    font-family: "Comfortaa";
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    background: linear-gradient(to bottom, #ffeb3b, #f39c12);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.container {
+    align-items: center;
+    margin: auto;
+}
+
+.row {
+    margin-top: 30vh;
+    height: 200px;
+    min-width: 300px;
+}
+
+.four0one {
+    color: #e67e22;
+    text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    margin-top: -67px;
+    font-size: 15em;
+    text-align: right;
+    min-width: 450px;
+    z-index: 5;
+}
+
+    .four0one:before {
+        content: "401";
+        position: absolute;
+        color: #ff9800;
+        mix-blend-mode: color-dodge;
+        z-index: 1;
+    }
+
+.unauthorized {
+    color: #e67e22;
+    text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    line-height: 110%;
+    font-size: 3.75em;
+}
+
+    .unauthorized:before {
+        letter-spacing: 0.25px;
+        content: "Unauthorized";
+        position: absolute;
+        color: #ff9800;
+        mix-blend-mode: color-dodge;
+        z-index: 1;
+    }
+
+.flicker1 {
+    animation: 5s linear 3.25s flickr infinite;
+}
+
+.flicker2 {
+    animation: 5s linear 1.25s flickr infinite;
+}
+
+.flicker3 {
+    animation: 5s ease 1s flickr infinite;
+}
+
+.flicker4 {
+    animation: 5s ease 2s flickr infinite;
+}
+
+.off {
+    color: rgba(50, 50, 50, 0.35);
+    border: none;
+    text-shadow: none;
+}
+
+.lock-icon {
+    width: 100px;
+    height: 100px;
+    background-image: url('/path-to-your-lock-image.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    animation: 5s linear spin infinite;
+    z-index: 400;
+    margin-top: -50px;
+}
+
+@keyframes flickr {
+    0% {
+        color: rgba(50, 50, 50, 0.35);
+        border: none;
+        text-shadow: none;
+    }
+
+    1% {
+        color: #e67e22;
+        text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    }
+
+    2% {
+        color: rgba(50, 50, 50, 0.35);
+        border: none;
+        text-shadow: none;
+    }
+
+    8% {
+        color: rgba(50, 50, 50, 0.35);
+        border: none;
+        text-shadow: none;
+    }
+
+    10% {
+        color: #e67e22;
+        text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    }
+
+    11% {
+        color: rgba(50, 50, 50, 0.35);
+        border: none;
+        text-shadow: none;
+    }
+
+    12% {
+        color: #e67e22;
+        text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    }
+
+    13% {
+        color: rgba(50, 50, 50, 0.35);
+        border: none;
+        text-shadow: none;
+    }
+
+    14% {
+        color: #e67e22;
+        text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    }
+
+    53% {
+        color: #e67e22;
+        text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    }
+
+    54% {
+        color: rgba(50, 50, 50, 0.35);
+        border: none;
+        text-shadow: none;
+    }
+
+    58% {
+        color: rgba(50, 50, 50, 0.35);
+        border: none;
+        text-shadow: none;
+    }
+
+    59% {
+        color: #e67e22;
+        text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    }
+
+    60% {
+        color: rgba(50, 50, 50, 0.35);
+        border: none;
+        text-shadow: none;
+    }
+
+    61% {
+        color: #e67e22;
+        text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    }
+
+    100% {
+        color: #e67e22;
+        text-shadow: 0 0 2px rgba(255, 87, 34, 0.3), 0 0 4px rgba(255, 152, 0, 1), 0 0 90px #ff9800;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 991px) {
+    .container {
+        margin-top: 30vh;
+    }
+
+    .four0one {
+        text-align: center;
+        min-width: 100%;
+        padding: 0;
+        margin: 0;
+        height: 200px;
+        font-size: 10em;
+    }
+
+    .unauthorized {
+        font-size: 1.75em;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+}

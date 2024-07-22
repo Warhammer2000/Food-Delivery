@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="content container mt-4">
+        <div class="section-header">
+            <h2>Магазины</h2>
+            <div class="banner">
+                <img src="~/images/banner.png" alt="Banner" class="img-fluid" />
+            </div>
+        </div>
+
+        <div class="categories mb-4">
+            <div class="category-list">
+                <div class="category-item">ДИКСИ</div>
+                <div class="category-item">Перекрёсток</div>
+                <div class="category-item">САМСОН ФАРМА</div>
+                <div class="category-item">ВКУСВИЛЛ ЭКСПРЕСС</div>
+                <div class="category-item">36.6 АПТЕКА</div>
+                <div class="category-item">Flawery</div>
+            </div>
+        </div>
+
+        <div class="restaurants">
+            <h2 class="mb-3 text-center">Рестораны</h2>
+            <div class="restaurant-list d-flex flex-wrap justify-content-center">
+                <!-- Add restaurant items here similar to Yandex Eda -->
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

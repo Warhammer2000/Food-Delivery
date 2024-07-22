@@ -1,0 +1,43 @@
+﻿/* Custom styles for the Register page */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.form-horizontal .form-group {
+    margin-bottom: 1rem;
+}
+
+    .form-horizontal .form-group label {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+.form-horizontal .form-control {
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.form-horizontal .btn {
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    width: 100%;
+}

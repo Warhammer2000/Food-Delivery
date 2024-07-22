@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using FoodDelivery.Models
+@using FoodDelivery.Helpers
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - FoodDelivery</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+			<div class="container-fluid">
+				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FoodDelivery</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<ul class="navbar-nav flex-grow-1">
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+						</li>
+						@if (SignInManager.IsSignedIn(User))
+						{
+							var currentUser = await UserManager.GetUserAsync(User);
+							var userRole = currentUser!.UserRole;
+
+							@if (userRole == RoleEnum.Admin || userRole == RoleEnum.User)
+							{
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
+								</li>
+							}
+							@if (userRole == RoleEnum.Admin || userRole == RoleEnum.Manager)
+							{
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Restaurants" asp-action="Index">Restaurant</a>
+								</li>
+							}
+							@if (userRole == RoleEnum.Admin || userRole == RoleEnum.Courier)
+							{
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Deliveries" asp-action="Index">Delivery</a>
+								</li>
+							}
+							@if (userRole == RoleEnum.Admin)
+							{
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Users">Users</a>
+								</li>
+							}
+							<li class="nav-item">
+								<form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+									<button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+								</form>
+							</li>
+						}
+						else
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+							</li>
+						}
+					</ul>
+					<div class="header-buttons d-flex align-items-center">
+						<input type="text" class="form-control me-2" placeholder="Найти ресторан, блюдо или товар">
+						<button type="button" class="btn btn-yellow me-2">Найти</button>
+						<button type="button" class="btn btn-yellow">Укажите адрес доставки</button>
+						<a asp-area="" asp-controller="Cart" asp-action="Index" class="btn btn-primary">
+							Корзина
+							@{
+								var cartItems = HttpContextAccessor!.HttpContext!.Session!.GetObjectFromJson<List<OrderItem>>("CartItems");
+								var itemCount = cartItems?.Count ?? 0;
+							}
+							<span class="badge bg-secondary">@itemCount</span>
+						</a>
+						<a asp-area="" asp-controller="CreditCard" asp-action="Index" class="btn btn-primary ms-2">
+							<i class="bi bi-credit-card"></i> Карты
+						</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+	@RenderSection("Styles", required: false)
+
+	<footer class="border-top footer text-muted">
+		<div class="container">
+			&copy; 2024 - FoodDelivery - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/lib/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@RenderSection("Scripts", required: false)
+</body>
+</html>

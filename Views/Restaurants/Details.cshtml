@@ -1,0 +1,95 @@
+﻿@model FoodDelivery.Models.Restaurant
+
+@{
+    ViewData["Title"] = Model.Name;
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FoodDelivery</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/DetailsRestaurant.css" asp-append-version="true" />
+</head>
+<body>
+    <h2 class="text-center mt-5">@Model.Name</h2>
+
+    <div class="container mt-5">
+        <div>
+            <h4>Restaurant Details</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">Name</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-2">Address</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Address)</dd>
+
+                <dt class="col-sm-2">Phone</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Phone)</dd>
+
+                <dt class="col-sm-2">Rating</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Rating)</dd>
+            </dl>
+        </div>
+
+        <div class="menu-section mt-5">
+            <h4>Menu</h4>
+            <p>
+                <a asp-action="AddMenuItem" asp-route-restaurantId="@Model.Id" class="btn btn-primary">Add Menu Item</a>
+            </p>
+            <div>
+                @foreach (var category in Model.Categories.Distinct())
+                {
+                    <h5 class="mt-4">@category</h5>
+                    <div class="row">
+                        @foreach (var item in Model.MenuItems.Where(m => m.Category == category))
+                        {
+                            <div class="col-md-4">
+                                <div class="card mb-4 box-shadow">
+                                    <img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@item.Name</h5>
+                                        <p class="card-text">@item.Description</p>
+                                        <p class="card-text">Price: @item.Price</p>
+                                        <a class="btn btn-primary" href="#">Add to Cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="rating-section mt-5">
+            <h4>Rate this Restaurant</h4>
+            <form asp-action="Rate" method="post">
+                <div class="form-group">
+                    <label for="rating">Rating (0-5)</label>
+                    <input type="number" class="form-control" id="rating" name="rating" min="0" max="5" step="0.1">
+                </div>
+                <input type="hidden" name="id" value="@Model.Id">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <div class="action-buttons mt-5">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>

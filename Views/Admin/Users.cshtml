@@ -1,0 +1,65 @@
+﻿@model IEnumerable<FoodDelivery.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Users";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FoodDelivery</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Users.css" asp-append-version="true" />
+</head>
+<body>
+    <h2 class="text-center mt-5">@ViewData["Title"]</h2>
+
+    <div class="container mt-5">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr id="user-@user.Id">
+                        <td>@user.Email</td>
+                        <td>@string.Join(", ", ViewBag.Roles[user.Id])</td>
+                        <td>
+                            <form asp-action="ChangeUserRole" method="post" class="d-inline">
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <select name="newRole" class="form-control d-inline w-auto">
+                                    @foreach (var role in ViewBag.AllRoles)
+                                    {
+                                        <option value="@role">@role</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-primary">Change Role</button>
+                            </form>
+                            <form asp-action="DeleteUser" method="post" class="d-inline" asp-antiforgery="true">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <form asp-action="ToggleLockout" asp-controller="Admin" method="post" class="d-inline" asp-antiforgery="true">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-warning">Toggle Lockout</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

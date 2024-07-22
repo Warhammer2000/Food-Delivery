@@ -1,0 +1,54 @@
+﻿@model FoodDelivery.ViewModel.CartViewModel
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Cart/index.css" asp-append-version="true" />
+}
+
+<h2>Cart</h2>
+
+<div class="container mt-5">
+    @if (Model == null || Model.OrderItems == null || !Model.OrderItems.Any())
+    {
+        <p class="empty-cart">Your cart is empty.</p>
+    }
+    else
+    {
+        <form asp-action="Index" method="post">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.MenuItem.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("c")</td>
+                            <td>@(item.Price * item.Quantity).ToString("c")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <h4 class="total">Total: @Model.OrderItems.Sum(i => i.Price * i.Quantity).ToString("c")</h4>
+
+            <div class="form-group">
+                <label for="DeliveryAddress" class="control-label">Delivery Address</label>
+                <input id="DeliveryAddress" name="DeliveryAddress" class="form-control" />
+                <span class="text-danger" asp-validation-for="DeliveryAddress"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
+    }
+</div>

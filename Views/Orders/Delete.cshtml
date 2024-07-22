@@ -1,0 +1,52 @@
+﻿@model Order
+
+@{
+    ViewBag.Title = "Delete Order";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Orders/DeleteOrder.css" asp-append-version="true" />
+}
+
+<h2>Delete Order</h2>
+
+<h4>Order</h4>
+<hr />
+<div class="container mt-5">
+    <div class="text-center">
+        <h4>Are you sure you want to delete this?</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                User ID
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UserId)
+            </dd>
+            <dt class="col-sm-2">
+                Restaurant ID
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RestaurantId)
+            </dd>
+            <dt class="col-sm-2">
+                Order Date
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OrderDate)
+            </dd>
+            <dt class="col-sm-2">
+                Status
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
+</div>

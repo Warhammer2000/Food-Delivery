@@ -1,0 +1,65 @@
+﻿/* Custom styles for the Add Menu Item page */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 0.5rem 1.5rem;
+}
+
+.img-thumbnail {
+    cursor: pointer;
+}
+
+.text-center {
+    text-align: center;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+#imageSearchResults {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    flex: 1 0 100%; /* adjust the flex basis to fit 4 items in a row */
+    margin: 10px;
+    border: none;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+    .card-img-top:hover {
+        transform: scale(1.05);
+    }

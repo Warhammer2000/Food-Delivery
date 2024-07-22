@@ -1,0 +1,36 @@
+﻿@model List<FoodDelivery.Models.MenuItem>
+
+@{
+    ViewBag.Title = "Menu";
+}
+
+
+
+<h2 class="text-center mt-5">Menu - @ViewBag.RestaurantName</h2>
+
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img class="card-img-top" src="@item.ImageUrl" alt="@item.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <form asp-action="AddToCart" asp-controller="Orders" method="post">
+                                    <input type="hidden" name="menuItemId" value="@item.Id" />
+                                    <input type="hidden" name="restaurantId" value="@ViewBag.RestaurantId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Добавить в корзину</button>
+                                </form>
+                            </div>
+                            <small class="text-muted">@item.Price руб.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

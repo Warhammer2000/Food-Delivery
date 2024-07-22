@@ -1,0 +1,92 @@
+﻿@model FoodDelivery.Models.MenuItem
+
+@{
+    ViewData["Title"] = "Add Menu Item";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/AddMenuItem.css" asp-append-version="true" />
+}
+
+<h2 class="text-center mt-5">@ViewData["Title"]</h2>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h4 class="mb-4">MenuItem</h4>
+            <hr />
+            <form asp-action="AddMenuItem" enctype="multipart/form-data">
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Category" class="control-label"></label>
+                    <input asp-for="Category" class="form-control" />
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="ImageSearchQuery" class="control-label"></label>
+                    <input asp-for="ImageSearchQuery" class="form-control" placeholder="Search for images" />
+                    <input type="submit" value="Search" formaction="@Url.Action("SearchImage", "Restaurants")" formmethod="get" class="btn btn-secondary mt-2" />
+                </div>
+                <div id="imageSearchResults" class="mt-3">
+                    @if (ViewBag.Images != null)
+                    {
+                        foreach (var url in ViewBag.Images as List<string>)
+                        {
+                            <div class="card">
+                                <img src="@url" class="card-img-top" onclick="selectImage('@url')" />
+                            </div>
+                        }
+                    }
+                    else if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <p>@error.ErrorMessage</p>
+                            }
+                        </div>
+                    }
+                </div>
+                <input type="hidden" asp-for="RestaurantId" />
+                <div class="form-group mb-3 text-center">
+                    <input type="submit" value="Add" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-action="Details" asp-route-id="@Model.RestaurantId" class="btn btn-secondary">Back to Restaurant</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function selectImage(url) {
+            document.getElementById('ImageUrl').value = url;
+        }
+    </script>
+}

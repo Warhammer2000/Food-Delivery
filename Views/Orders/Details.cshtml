@@ -1,0 +1,31 @@
+﻿@model FoodDelivery.Models.Order
+
+@{
+    ViewBag.Title = "Order Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Orders/OrderDetails.css" asp-append-version="true" />
+}
+
+<h2>Order Details</h2>
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h3>Order #@Model.Id</h3>
+        <p>Date: @Model.OrderDate</p>
+        <p>Status: @Model.Status</p>
+        <h4>Items:</h4>
+        <ul>
+            @foreach (var item in Model.OrderItems)
+            {
+                <li>@item.MenuItem.Name - @item.Quantity x @item.Price</li>
+            }
+        </ul>
+        <h4 class="total">Total: @Model.OrderItems.Sum(i => i.Quantity * i.Price) руб.</h4>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-secondary">Back to Orders</a>
+    </div>
+</div>

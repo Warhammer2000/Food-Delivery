@@ -1,0 +1,33 @@
+﻿/* Custom styles for the Delete Restaurant page */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+dl.row {
+    margin: 0;
+    padding: 0;
+}
+
+dt, dd {
+    font-size: 1rem;
+    padding: 0.5rem 0;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.btn-danger {
+    margin-right: 10px;
+}

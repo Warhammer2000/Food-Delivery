@@ -1,0 +1,25 @@
+﻿@model IEnumerable<FoodDelivery.Models.Restaurant>
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Orders/Restaurants.css" asp-append-version="true" />
+}
+
+<h2 class="text-center mt-5">Restaurants</h2>
+
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var restaurant in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@restaurant.Name</h5>
+                        <p class="card-text">@restaurant.Address</p>
+                        <a asp-controller="Orders" asp-action="Menu" asp-route-restaurantId="@restaurant.Id" class="btn btn-primary">View Menu</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

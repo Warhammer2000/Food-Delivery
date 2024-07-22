@@ -1,0 +1,41 @@
+﻿@model IEnumerable<FoodDelivery.Models.CreditCard>
+@{
+    ViewData["Title"] = "Your Credit Cards";
+}
+
+<h2>Your Credit Cards</h2>
+
+<a href="@Url.Action("Add", "CreditCard")" class="btn btn-primary mb-3">Add New Card</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Card Number</th>
+            <th>Card Holder Name</th>
+            <th>Expiry</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var card in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(card.CardNumber) && card.CardNumber.Length >= 4)
+                    {
+                        @:**** **** **** @card.CardNumber.Substring(card.CardNumber.Length - 4)
+                    }
+                    else
+                    {
+                        @:Invalid Card Number
+                    }
+                </td>
+                <td>@card.CardHolderName</td>
+                <td>@card.ExpiryMonth/@card.ExpiryYear</td>
+                <td>
+                    <a href="@Url.Action("Delete", "CreditCard", new { id = card.Id })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

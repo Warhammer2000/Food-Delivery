@@ -1,0 +1,52 @@
+﻿@model Restaurant
+
+@{
+    ViewData["Title"] = "Delete Restaurant";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FoodDelivery</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/DeleteRestaurant.css" asp-append-version="true" />
+</head>
+<body>
+    <h2 class="text-center mt-5">@ViewData["Title"]</h2>
+
+    <div class="container mt-5">
+        <h4>Are you sure you want to delete this?</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+
+            <dt class="col-sm-2">Address</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Address)</dd>
+
+            <dt class="col-sm-2">Phone</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Phone)</dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>
