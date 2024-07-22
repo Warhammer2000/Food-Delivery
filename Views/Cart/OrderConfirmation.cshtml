@@ -54,7 +54,7 @@
         <h4 class="total">Total: $0.00</h4>
     }
 
-    <form asp-action="ConfirmOrder" method="post">
+    <form id="payment-form" asp-controller="Payment" asp-action="ConfirmOrder" method="post">
         @Html.HiddenFor(m => m.Order.Id)
         @Html.HiddenFor(m => m.Order.Status)
         @Html.HiddenFor(m => m.Order.UserId)
@@ -77,7 +77,7 @@
         <div class="form-group">
             <label for="CreditCardId" class="control-label">Select Credit Card</label>
             <select id="CreditCardId" name="CreditCardId" class="form-control">
-                <option value="">Add a new card</option>
+                <option value="new">Add a new card</option>
                 @if (Model.CreditCards != null)
                 {
                     @foreach (var card in Model.CreditCards)
@@ -91,7 +91,7 @@
         <div id="newCardDetails">
             <div class="form-group">
                 <label asp-for="CardNumber" class="control-label"></label>
-                <input asp-for="CardNumber" class="form-control" />
+                <div id="card-element"><!-- Stripe.js injects the Card Element --></div>
                 <span asp-validation-for="CardNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -109,9 +109,63 @@
                 <input asp-for="ExpiryYear" class="form-control" />
                 <span asp-validation-for="ExpiryYear" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="CVV" class="control-label"></label>
+                <input asp-for="CVV" class="form-control" />
+                <span asp-validation-for="CVV" class="text-danger"></span>
+            </div>
         </div>
 
         <button type="submit" class="btn btn-primary">Confirm Order</button>
+        <div id="card-errors" class="text-danger" role="alert"></div>
     </form>
-
 </div>
+
+@section Scripts {
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('@Model.PublishableKey');
+        var elements = stripe.elements();
+
+        var card = elements.create('card');
+        card.mount('#card-element');
+
+        var form = document.getElementById('payment-form');
+        var creditCardSelect = document.getElementById('CreditCardId');
+        var newCardDetails = document.getElementById('newCardDetails');
+
+        creditCardSelect.addEventListener('change', function (event) {
+            if (event.target.value === "new") {
+                newCardDetails.style.display = 'block';
+            } else {
+                newCardDetails.style.display = 'none';
+            }
+        });
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            if (creditCardSelect.value === "new") {
+                stripe.createToken(card).then(function (result) {
+                    if (result.error) {
+                        // Inform the user if there was an error
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        // Send the token to your server
+                        var hiddenInput = document.createElement('input');
+                        hiddenInput.setAttribute('type', 'hidden');
+                        hiddenInput.setAttribute('name', 'stripeToken');
+                        hiddenInput.setAttribute('value', result.token.id);
+                        form.appendChild(hiddenInput);
+
+                        // Submit the form
+                        form.submit();
+                    }
+                });
+            } else {
+                form.submit();
+            }
+        });
+    </script>
+}

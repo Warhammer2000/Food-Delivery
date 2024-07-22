@@ -22,5 +22,6 @@ namespace FoodDelivery.ViewModel
         [Display(Name = "Expiry Year")]
         public string? ExpiryYear { get; set; }
         public string? CVV { get; set; }
+        public string? PublishableKey { get; set; }
     }
 }

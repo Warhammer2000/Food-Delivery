@@ -2,6 +2,9 @@
 using MongoDB.Driver;
 using FoodDelivery.Models;
 using Microsoft.AspNetCore.Identity;
+using FoodDelivery.Helpers;
+using Microsoft.Extensions.Options;
+using Stripe;
 
 
 namespace FoodDelivery.Controllers
@@ -11,11 +14,15 @@ namespace FoodDelivery.Controllers
     {
         private readonly IMongoCollection<CreditCard> _creditCards;
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public CreditCardController(IMongoDatabase database, UserManager<ApplicationUser> userManager)
+        private readonly StripeSettings _stripeSettings;
+        public CreditCardController(IMongoDatabase database,
+            UserManager<ApplicationUser> userManager, IOptions<StripeSettings> stripeSettings)
         {
             _creditCards = database.GetCollection<CreditCard>("CreditCards");
             _userManager = userManager;
+            _stripeSettings = stripeSettings.Value;
+
+            StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
         }
 
         [HttpGet("Index")]

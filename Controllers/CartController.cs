@@ -15,14 +15,17 @@ namespace FoodDelivery.Controllers
         private readonly IMongoCollection<Order> _orders;
         private readonly IMongoCollection<Restaurant> _restaurants;
         private readonly IMongoCollection<CreditCard> _creditCards;
-
-        public CartController(UserManager<ApplicationUser> userManager, IMongoDatabase database)
+        private readonly IConfiguration _configuration;
+        public CartController(UserManager<ApplicationUser> userManager,
+            IMongoDatabase database,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _menuItems = database.GetCollection<MenuItem>("MenuItems");
             _creditCards = database.GetCollection<CreditCard>("CreditCards");
             _restaurants = database.GetCollection<Restaurant>("Restaurants");
             _orders = database.GetCollection<Order>("Orders");
+            _configuration = configuration;
         }
 
         [HttpPost("AddToCart")]
@@ -148,64 +151,11 @@ namespace FoodDelivery.Controllers
             var viewModel = new OrderConfirmationViewModel
             {
                 Order = order,
-                CreditCards = creditCards
+                CreditCards = creditCards,
+                PublishableKey = _configuration["Stripe:PublishableKey"]
             };
 
             return View(viewModel);
-        }
-
-        [HttpPost("ConfirmOrder")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmOrder(OrderConfirmationViewModel viewModel)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return RedirectToAction("UnauthorizedPage", "Error");
-            }
-
-            if (string.IsNullOrEmpty(viewModel.Order.Id))
-            {
-                return RedirectToAction("NotFoundPage", "Error");
-            }
-
-            var existingOrder = await _orders.Find(o => o.Id == viewModel.Order.Id && o.UserId == user.Id.ToString()).FirstOrDefaultAsync();
-            if (existingOrder == null)
-            {
-                return RedirectToAction("NotFoundPage", "Error");
-            }
-
-            if (string.IsNullOrEmpty(viewModel.CreditCardId))
-            {
-                var newCard = new CreditCard
-                {
-                    UserId = user.Id.ToString(),
-                    CardNumber = viewModel.CardNumber,
-                    CardHolderName = viewModel.CardHolderName,
-                    ExpiryMonth = viewModel.ExpiryMonth,
-                    ExpiryYear = viewModel.ExpiryYear
-                };
-                await _creditCards.InsertOneAsync(newCard);
-            }
-            else
-            {
-                var card = await _creditCards.Find(c => c.Id == viewModel.CreditCardId && c.UserId == user.Id.ToString()).FirstOrDefaultAsync();
-                if (card == null)
-                {
-                    return RedirectToAction("NotFoundPage", "Error");
-                }
-            }
-
-            existingOrder.Status = "Confirmed";
-            await _orders.ReplaceOneAsync(o => o.Id == existingOrder.Id, existingOrder);
-
-            return RedirectToAction("OrderSuccess");
-        }
-
-        [HttpGet("OrderSuccess")]
-        public IActionResult OrderSuccess()
-        {
-            return View();
         }
     }
 }

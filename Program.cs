@@ -17,11 +17,18 @@ var unsplashAccessKey = Environment.GetEnvironmentVariable("UNSPLASH_ACCESS_KEY"
 var cloudinaryCloudName = Environment.GetEnvironmentVariable("CLOUDINARY_CLOUD_NAME");
 var cloudinaryApiKey = Environment.GetEnvironmentVariable("CLOUDINARY_API_KEY");
 var cloudinaryApiSecret = Environment.GetEnvironmentVariable("CLOUDINARY_API_SECRET");
+var stripeSecretKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
+var stripePublishableKey = Environment.GetEnvironmentVariable("STRIPE_PUBLISHABLE_KEY");
 
 builder.Configuration["Unsplash:AccessKey"] = unsplashAccessKey;
 builder.Configuration["Cloudinary:CloudName"] = cloudinaryCloudName;
 builder.Configuration["Cloudinary:ApiKey"] = cloudinaryApiKey;
 builder.Configuration["Cloudinary:ApiSecret"] = cloudinaryApiSecret;
+builder.Configuration["Stripe:SecretKey"] = stripeSecretKey;
+builder.Configuration["Stripe:PublishableKey"] = stripePublishableKey;
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
